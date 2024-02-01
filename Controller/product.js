@@ -1,6 +1,7 @@
 const productEnroll = require('../Models/enroll');
 const productContact = require('../Models/contact');
 const productHiring = require('../Models/hiring');
+const productSmtContacts = require('../Models/smtContact.js')
 
 
 const postEnroll = async(req,res)=>{
@@ -83,5 +84,31 @@ const getAllHiring = async(req,res)=>{
         products2
     })
 }
+////////////////////////////////////////////////////////////////////////////////////////
+const postSmtContacts = async(req,res)=>{
+    const existingProduct = await productSmtContacts.findOne({email: req.body.email});//check on emailId 
 
-module.exports = {postEnroll,getAllEnroll,postContact,getAllContacts,postHiring,getAllHiring};
+    if(existingProduct){
+        res.status(400).json({
+            success: false,
+            message: 'This email already exist, please choose other.'
+        })
+    }else {
+    const product3 = await productSmtContacts.create(req.body);
+    //console.log(req.body)
+    res.status(200).json({
+        success :true,
+        product3
+    })
+}   
+}
+
+const getAllSmtContacts = async(req,res)=>{
+    const products3 = await productSmtContacts.find();
+    res.status(200).json({
+        success :true,
+        products3
+    })
+}
+
+module.exports = {postEnroll,getAllEnroll,postContact,getAllContacts,postHiring,getAllHiring,postSmtContacts,getAllSmtContacts};

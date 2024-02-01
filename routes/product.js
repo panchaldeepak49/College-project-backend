@@ -17,7 +17,8 @@ const storage = multer.diskStorage({
 
 const express = require('express');
 const router = express.Router();
-const {postEnroll,getAllEnroll,postContact,getAllContacts,postHiring,getAllHiring} = require("../Controller/product")
+const {postEnroll,getAllEnroll,postContact,getAllContacts,
+  postHiring,getAllHiring,postSmtContacts,getAllSmtContacts} = require("../Controller/product")
 const {uploadFile} = require("../Controller/fileUpload")
 
 router.route("/enroll/create").post(postEnroll);
@@ -27,6 +28,9 @@ router.route("/contactUs/read").get(getAllContacts);
 router.route('/hiring/create').post(postHiring);
 router.route('/hiring/read').get(getAllHiring);
 router.route('/upload').post(upload.single('file'),uploadFile);
+
+router.route('/smt/createContacts').post(postSmtContacts);
+router.route('/smt/readContacts').get(getAllSmtContacts);
 
 
 module.exports = router;
