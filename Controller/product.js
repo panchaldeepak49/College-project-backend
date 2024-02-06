@@ -85,30 +85,86 @@ const getAllHiring = async(req,res)=>{
     })
 }
 ////////////////////////////////////////////////////////////////////////////////////////
+
+
 const postSmtContacts = async(req,res)=>{
     const existingProduct = await productSmtContacts.findOne({email: req.body.email});//check on emailId 
 
     if(existingProduct){
-        res.status(400).json({
+        return res.status(400).json({
             success: false,
             message: 'This email already exist, please choose other.'
         })
     }else {
     const product3 = await productSmtContacts.create(req.body);
     //console.log(req.body)
-    res.status(200).json({
+    return res.status(200).json({
         success :true,
         product3
     })
 }   
 }
 
+//Controller code 
+
+const updateSmtContacts = async(req,res)=>{
+    let availableUser = await productSmtContacts.findById(req.params.id);
+
+    if(availableUser){
+     availableUser = await productSmtContacts.findByIdAndUpdate(req.params.id,req.body,
+        {new:true,
+        useFindAndModify: false,
+        runValidators: true
+        })
+      return res.status(200).json({
+        success :true,
+        availableUser,
+        message : 'User updated successfully'
+    })
+
+   }else {
+        return res.status(404).json({
+        success: false,
+        message: 'This user is not present'
+    })
+   }}
+
+   //Controller code 
+   const deleteSmtContacts = async(req,res)=>{
+    try{
+    let availableUser = await productSmtContacts.findById(req.params.id);
+    if(!availableUser){
+        return res.status(404).json({
+            success :false,
+            message : "User not found."
+        })
+
+    }else{
+    // await availableUser.remove();
+    await productSmtContacts.findByIdAndRemove(req.params.id); 
+       return res.status(200).json({
+        success :true,
+        message : "User is deleted."
+    })
+   }
+   }catch(error){
+    console.error(error);
+    return res.status(500).json({
+        success: false,
+        message: "Internal Server Error."
+    });
+   }
+  }
+
+//Controller code 
+
 const getAllSmtContacts = async(req,res)=>{
     const products3 = await productSmtContacts.find();
-    res.status(200).json({
+    return res.status(200).json({
         success :true,
         products3
     })
 }
 
-module.exports = {postEnroll,getAllEnroll,postContact,getAllContacts,postHiring,getAllHiring,postSmtContacts,getAllSmtContacts};
+module.exports = {postEnroll,getAllEnroll,postContact,getAllContacts,postHiring,getAllHiring,
+    postSmtContacts,getAllSmtContacts,updateSmtContacts,deleteSmtContacts};

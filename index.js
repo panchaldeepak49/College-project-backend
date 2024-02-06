@@ -17,6 +17,11 @@ app.use(cors());
 //middleware or to set router
 app.use('/api',product_routes)
 
+
+app.get('/',(req,res)=>{
+    res.send('Hello world ');
+})
+
 app.listen(5000,()=>{
     console.log('Server is working...')
 });

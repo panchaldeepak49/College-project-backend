@@ -3,19 +3,19 @@ const productSchema = new mongoose.Schema({
     
     name : {
         type: String,
-        required: true,
+        // required: true,
     },
     email : {
         type: String,
-        required: true,
+        // required: true,
     },
     mobile_number : {
         type: Number,
-        required: true,
+        // required: true,
     },
     message : {
         type: String,
-        required: true,
+        // required: true,
     },
     
 })
